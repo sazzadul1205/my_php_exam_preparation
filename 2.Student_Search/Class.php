@@ -12,42 +12,32 @@ class Student
   }
 
   // Get the student data
-  public function getData()
+  public function getData($id)
   {
-    // Open the file
-    $file = fopen("Student_data.txt", "r");
+    // File name
+    $file = "Student_Data.txt";
 
-    // Check if the file can be opened
-    if (!$file) {
-      return "File can't be opened.";
+    // Check if the file exists
+    if (!file_exists($file)) {
+      echo "Result file not found!";
+      return;
     }
 
-    // Read the file line by line
-    while (!feof($file)) {
+    // Read the file
+    $lines = file($file);
 
-      // Read a single line
-      $line = fgets($file);
+    // Loop through the file
+    foreach ($lines as $line) {
+      $data = explode(" ", $line);
 
-      // Remove leading and trailing whitespace
-      $line = trim($line);
-      if ($line === "") return "<div class='result' style='color:red;'>ID not found.</div> ";   // skip blank lines
-
-
-      // Split the line into an array
-      list($id, $name, $roll) = explode(" ", $line);
-
-      // Check if the ID matches
-      if ($id == $this->id) {
-        return "<div class='result'>
-            ID: $id <br>
-            Name: $name <br>
-            Roll: $roll
-          </div>";
+      if ($data[0] == $id) {
+        echo "ID: " . $data[0] . "<br>";
+        echo "Name: " . $data[1] . "<br>";
+        echo "Batch: " . $data[2] . "<br>";
+        return;
       }
     }
 
-    // Close the file
-    fclose($file);
-    return "<div class='result' style='color:red;'>ID not found.</div>";
+    echo "No result found for ID: $id";
   }
 }

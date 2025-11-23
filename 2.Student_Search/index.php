@@ -94,7 +94,7 @@
       $id = $_POST['id'];
 
       $student = new Student($id);
-      $data = $student->getData();
+      $data = $student->getData($id);
 
       echo $data;
     }
